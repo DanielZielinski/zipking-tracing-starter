@@ -1,0 +1,6 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.daniel.zielinski.zipkin.config.ZipkinTracingConfig,\
+com.daniel.zielinski.zipkin.config.ZipkinProperties,\
+com.daniel.zielinski.zipkin.config.ZipkinSenderRabbitConfig,\
+com.daniel.zielinski.zipkin.config.ZipkinHttpRequestFilter
