@@ -16,6 +16,8 @@ import zipkin2.reporter.brave.AsyncZipkinSpanHandler;
 @ConditionalOnProperty(prefix = "spring.zipkin", name = "enabled", havingValue = "true")
 class ZipkinTracingConfig {
 
+    private final ZipkinProperties zipkinProperties;
+
     private final Sender sender;
 
     @Value("${spring.application.name}")
@@ -24,12 +26,14 @@ class ZipkinTracingConfig {
     @Bean
     public Tracing tracing() {
         log.info("Registering zipkin tracing");
-        AsyncZipkinSpanHandler build = AsyncZipkinSpanHandler
+        AsyncZipkinSpanHandler spanHandler = AsyncZipkinSpanHandler
                 .newBuilder(sender)
                 .build();
+        ZipkinSpanHandlerDecorator zipkinSpanHandlerDecorator = new ZipkinSpanHandlerDecorator(spanHandler,
+                zipkinProperties.getNotAllowedSpanNames());
         return Tracing.newBuilder()
                 .localServiceName(applicationName)
-                .addSpanHandler(build)
+                .addSpanHandler(zipkinSpanHandlerDecorator)
                 .build();
     }
 }

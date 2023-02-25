@@ -10,7 +10,9 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Validated
@@ -18,6 +20,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "spring.zipkin")
 @ConditionalOnProperty(prefix = "spring.zipkin", name = "enabled", havingValue = "true")
 class ZipkinProperties {
+
+    private Set<String> notAllowedSpanNames = new HashSet<>();
 
     private List<ZipkinCustomTag> customTags = new ArrayList<>();
 
